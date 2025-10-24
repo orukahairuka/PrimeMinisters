@@ -56,7 +56,40 @@ public class Translator extends Object
 	 */
 	public String computeNumberOfDays(String periodString)
 	{
-		return null;
+		// 日付文字列を「〜」で分割
+		String[] dates = periodString.split("〜");
+		if (dates.length < 2) { return ""; }
+
+		try
+		{
+			// 日付フォーマットを定義
+			java.text.SimpleDateFormat format = new java.text.SimpleDateFormat("yyyy年MM月dd日");
+
+			// 開始日と終了日をパース
+			java.util.Date startDate = format.parse(dates[0].trim());
+
+			// 終了日が空の場合は現在日を使用
+			java.util.Date endDate;
+			if (dates[1].trim().isEmpty())
+			{
+				endDate = new java.util.Date();
+			}
+			else
+			{
+				endDate = format.parse(dates[1].trim());
+			}
+
+			// 日数を計算（ミリ秒の差を日数に変換）
+			long diffInMillis = endDate.getTime() - startDate.getTime();
+			long days = diffInMillis / (1000 * 60 * 60 * 24);
+
+			return String.valueOf(days);
+		}
+		catch (Exception anException)
+		{
+			// パースエラーの場合は空文字列を返す
+			return "";
+		}
 	}
 
 	/**
@@ -79,6 +112,10 @@ public class Translator extends Object
 		// 必要な情報をダウンロードする。
 		Downloader aDownloader = new Downloader(this.inputTable);
 		aDownloader.perform();
+
+		// ダウンロードしたCSVファイルを読み込む。
+		Reader aReader = new Reader(this.inputTable);
+		aReader.perform();
 
 		// CSVに由来するテーブルをHTMLに由来するテーブルへと変換する。
 		System.out.println(this.inputTable);
@@ -121,6 +158,54 @@ public class Translator extends Object
 	 */
 	public void translate()
 	{
+		Attributes inputAttributes = this.inputTable.attributes();
+		Attributes outputAttributes = this.outputTable.attributes();
+
+		// inputTableの各Tupleを処理
+		for (Tuple inputTuple : this.inputTable.tuples())
+		{
+			List<String> outputValues = new ArrayList<String>();
+
+			// outputのkeysに合わせて値を設定
+			for (int index = 0; index < outputAttributes.size(); index++)
+			{
+				String key = outputAttributes.keys().get(index);
+
+				if (key.equals("days"))
+				{
+					// 在位日数を計算
+					int periodIndex = inputAttributes.indexOf("period");
+					if (periodIndex >= 0 && periodIndex < inputTuple.values().size())
+					{
+						String periodString = inputTuple.values().get(periodIndex);
+						String daysString = this.computeNumberOfDays(periodString);
+						outputValues.add(daysString);
+					}
+					else
+					{
+						outputValues.add("");
+					}
+				}
+				else
+				{
+					// 対応するinputの値を取得
+					int inputIndex = inputAttributes.indexOf(key);
+					if (inputIndex >= 0 && inputIndex < inputTuple.values().size())
+					{
+						outputValues.add(inputTuple.values().get(inputIndex));
+					}
+					else
+					{
+						outputValues.add("");
+					}
+				}
+			}
+
+			// 新しいTupleを作成してoutputTableに追加
+			Tuple outputTuple = new Tuple(outputAttributes, outputValues);
+			this.outputTable.add(outputTuple);
+		}
+
 		return;
 	}
 }
