@@ -58,6 +58,31 @@ public class Writer extends IO
 	 */
 	public void writeAttributesOn(BufferedWriter aWriter)
 	{
+		try
+		{
+			Attributes attributes = this.attributes();
+
+			// テーブル開始タグ
+			aWriter.write("<table>");
+			aWriter.newLine();
+
+			// テーブルヘッダー行
+			aWriter.write("<tr>");
+			aWriter.newLine();
+
+			// 各属性名をth要素として出力
+			for (int index = 0; index < attributes.size(); index++)
+			{
+				String attributeName = attributes.at(index);
+				aWriter.write("<th>" + IO.htmlCanonicalString(attributeName) + "</th>");
+				aWriter.newLine();
+			}
+
+			aWriter.write("</tr>");
+			aWriter.newLine();
+		}
+		catch (IOException anException) { anException.printStackTrace(); }
+
 		return;
 	}
 
