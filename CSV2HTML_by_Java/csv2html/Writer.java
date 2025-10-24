@@ -92,6 +92,22 @@ public class Writer extends IO
 	 */
 	public void writeFooterOn(BufferedWriter aWriter)
 	{
+		try
+		{
+			// テーブル終了タグ
+			aWriter.write("</table>");
+			aWriter.newLine();
+
+			// BODY終了タグ
+			aWriter.write("</body>");
+			aWriter.newLine();
+
+			// HTML終了タグ
+			aWriter.write("</html>");
+			aWriter.newLine();
+		}
+		catch (IOException anException) { anException.printStackTrace(); }
+
 		return;
 	}
 
