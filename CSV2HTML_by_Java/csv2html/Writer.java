@@ -162,6 +162,27 @@ public class Writer extends IO
 	 */
 	public void writeTuplesOn(BufferedWriter aWriter)
 	{
+		try
+		{
+			// 各タプル（データ行）を出力
+			for (Tuple aTuple : this.tuples())
+			{
+				aWriter.write("<tr>");
+				aWriter.newLine();
+
+				// 各値をtd要素として出力
+				for (String value : aTuple.values())
+				{
+					aWriter.write("<td>" + IO.htmlCanonicalString(value) + "</td>");
+					aWriter.newLine();
+				}
+
+				aWriter.write("</tr>");
+				aWriter.newLine();
+			}
+		}
+		catch (IOException anException) { anException.printStackTrace(); }
+
 		return;
 	}
 }
