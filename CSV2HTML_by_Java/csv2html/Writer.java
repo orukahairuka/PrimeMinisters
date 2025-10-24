@@ -76,6 +76,46 @@ public class Writer extends IO
 	 */
 	public void writeHeaderOn(BufferedWriter aWriter)
 	{
+		try
+		{
+			Attributes attributes = this.attributes();
+
+			// DOCTYPE宣言
+			aWriter.write("<!DOCTYPE html>");
+			aWriter.newLine();
+
+			// HTML開始タグ
+			aWriter.write("<html lang=\"ja\">");
+			aWriter.newLine();
+
+			// HEAD部分
+			aWriter.write("<head>");
+			aWriter.newLine();
+			aWriter.write("<meta charset=\"" + StringUtility.encodingSymbol() + "\">");
+			aWriter.newLine();
+			aWriter.write("<title>" + IO.htmlCanonicalString(attributes.titleString()) + "</title>");
+			aWriter.newLine();
+			aWriter.write("<style>");
+			aWriter.newLine();
+			aWriter.write("table { border-collapse: collapse; width: 100%; }");
+			aWriter.newLine();
+			aWriter.write("th, td { border: 1px solid black; padding: 8px; text-align: left; }");
+			aWriter.newLine();
+			aWriter.write("th { background-color: #f2f2f2; }");
+			aWriter.newLine();
+			aWriter.write("</style>");
+			aWriter.newLine();
+			aWriter.write("</head>");
+			aWriter.newLine();
+
+			// BODY開始タグ
+			aWriter.write("<body>");
+			aWriter.newLine();
+			aWriter.write("<h1>" + IO.htmlCanonicalString(attributes.captionString()) + "</h1>");
+			aWriter.newLine();
+		}
+		catch (IOException anException) { anException.printStackTrace(); }
+
 		return;
 	}
 
