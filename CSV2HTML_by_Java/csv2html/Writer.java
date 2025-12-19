@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
+import java.util.List;
 import utility.StringUtility;
 
 /**
@@ -180,6 +181,9 @@ public class Writer extends IO
 	{
 		try
 		{
+			Attributes attributes = this.attributes();
+			int imageIndex = attributes.indexOfImage();
+
 			// 各タプル（データ行）を出力
 			for (Tuple aTuple : this.tuples())
 			{
@@ -187,9 +191,13 @@ public class Writer extends IO
 				aWriter.newLine();
 
 				// 各値をtd要素として出力
-				for (String value : aTuple.values())
+				List<String> values = aTuple.values();
+				for (int index = 0; index < values.size(); index++)
 				{
-					aWriter.write("<td>" + IO.htmlCanonicalString(value) + "</td>");
+					String value = values.get(index);
+					// 画像列はHTMLタグを含むのでエスケープしない
+					String cellContent = (index == imageIndex) ? value : IO.htmlCanonicalString(value);
+					aWriter.write("<td>" + cellContent + "</td>");
 					aWriter.newLine();
 				}
 

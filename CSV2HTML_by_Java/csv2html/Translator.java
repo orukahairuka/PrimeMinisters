@@ -94,14 +94,52 @@ public class Translator extends Object
 
 	/**
 	 * サムネイル画像から画像へ飛ぶためのHTML文字列を作成して、それを応答する。
-	 * @param aString 画像の文字列
-	 * @param aTuple タプル
-	 * @param no 番号
+	 * @param imageString 画像の文字列
+	 * @param inputTuple 入力タプル
+	 * @param tupleIndex タプルのインデックス
 	 * @return サムネイル画像から画像へ飛ぶためのHTML文字列
 	 */
-	public String computeStringOfImage(String aString, Tuple aTuple, int no)
+	public String computeStringOfImage(String imageString, Tuple inputTuple, int tupleIndex)
 	{
-		return null;
+		// 入力テーブルの属性を取得
+		Attributes inputAttributes = this.inputTable.attributes();
+
+		// サムネイルのインデックスを取得し、サムネイル文字列を取得
+		int thumbnailIndex = inputAttributes.indexOfThumbnail();
+		String thumbnailString = imageString; // デフォルトは画像と同じ
+		if (thumbnailIndex >= 0 && thumbnailIndex < inputTuple.values().size())
+		{
+			String thumb = inputTuple.values().get(thumbnailIndex);
+			if (thumb != null && !thumb.isEmpty())
+			{
+				thumbnailString = thumb;
+			}
+		}
+
+		// baseUrlを取得
+		String baseUrl = inputAttributes.baseUrl();
+
+		// 画像のフルURL
+		String imageUrl = baseUrl + imageString;
+
+		// サムネイルのフルURL
+		String thumbnailUrl = baseUrl + thumbnailString;
+
+		// ファイル名を取得（altテキスト用）
+		String altText = imageString;
+		int lastSlash = imageString.lastIndexOf('/');
+		if (lastSlash >= 0 && lastSlash < imageString.length() - 1)
+		{
+			altText = imageString.substring(lastSlash + 1);
+		}
+
+		// HTML文字列を生成: <a href="画像URL"><img src="サムネイルURL" alt="ファイル名" /></a>
+		StringBuilder htmlBuilder = new StringBuilder();
+		htmlBuilder.append("<a href=\"").append(imageUrl).append("\">");
+		htmlBuilder.append("<img src=\"").append(thumbnailUrl).append("\" alt=\"").append(altText).append("\" />");
+		htmlBuilder.append("</a>");
+
+		return htmlBuilder.toString();
 	}
 
 	/**
@@ -162,6 +200,7 @@ public class Translator extends Object
 		Attributes outputAttributes = this.outputTable.attributes();
 
 		// inputTableの各Tupleを処理
+		int tupleIndex = 0;
 		for (Tuple inputTuple : this.inputTable.tuples())
 		{
 			List<String> outputValues = new ArrayList<String>();
@@ -186,6 +225,21 @@ public class Translator extends Object
 						outputValues.add("");
 					}
 				}
+				else if (key.equals("image"))
+				{
+					// 画像列はHTML文字列に変換
+					int imageIndex = inputAttributes.indexOfImage();
+					if (imageIndex >= 0 && imageIndex < inputTuple.values().size())
+					{
+						String imageString = inputTuple.values().get(imageIndex);
+						String imageHtml = this.computeStringOfImage(imageString, inputTuple, tupleIndex);
+						outputValues.add(imageHtml);
+					}
+					else
+					{
+						outputValues.add("");
+					}
+				}
 				else
 				{
 					// 対応するinputの値を取得
@@ -204,6 +258,7 @@ public class Translator extends Object
 			// 新しいTupleを作成してoutputTableに追加
 			Tuple outputTuple = new Tuple(outputAttributes, outputValues);
 			this.outputTable.add(outputTuple);
+			tupleIndex++;
 		}
 
 		return;
