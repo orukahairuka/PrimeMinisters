@@ -53,7 +53,7 @@ public class AttributesForPrimeMinisters extends Attributes
 	 */
 	public String baseUrl()
 	{
-		return "http://www.cc.kyoto-su.ac.jp/~atsushi/Programs/VisualWorks/CSV2HTML/PrimeMinisters/";
+		return "https://www.cc.kyoto-su.ac.jp/~atsushi/Programs/VisualWorks/CSV2HTML/PrimeMinisters/";
 	}
 
 	/**

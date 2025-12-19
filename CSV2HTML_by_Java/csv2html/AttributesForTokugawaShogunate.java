@@ -53,7 +53,7 @@ public class AttributesForTokugawaShogunate extends Attributes
 	 */
 	public String baseUrl()
 	{
-		return "http://www.cc.kyoto-su.ac.jp/~atsushi/Programs/VisualWorks/CSV2HTML/TokugawaShogunate/";
+		return "https://www.cc.kyoto-su.ac.jp/~atsushi/Programs/VisualWorks/CSV2HTML/TokugawaShogunate/";
 	}
 
 	/**
