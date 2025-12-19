@@ -79,9 +79,9 @@ public class Translator extends Object
 				endDate = format.parse(dates[1].trim());
 			}
 
-			// 日数を計算（ミリ秒の差を日数に変換）
+			// 日数を計算（ミリ秒の差を日数に変換、開始日と終了日の両方を含むため+1）
 			long diffInMillis = endDate.getTime() - startDate.getTime();
-			long days = diffInMillis / (1000 * 60 * 60 * 24);
+			long days = diffInMillis / (1000 * 60 * 60 * 24) + 1;
 
 			return String.valueOf(days);
 		}
