@@ -137,13 +137,43 @@ public class Writer extends IO
 			aWriter.newLine();
 			aWriter.write("<title>" + IO.htmlCanonicalString(attributes.titleString()) + "</title>");
 			aWriter.newLine();
+
+			// 見本ページに近いスタイルを定義
 			aWriter.write("<style>");
 			aWriter.newLine();
-			aWriter.write("table { border-collapse: collapse; width: 100%; }");
+			// Body: 白背景、serifフォント、余白設定
+			aWriter.write("body { background-color: #ffffff; margin: 20px; padding: 10px; font-family: serif; font-size: 10pt; }");
 			aWriter.newLine();
-			aWriter.write("th, td { border: 1px solid black; padding: 8px; text-align: left; }");
+			// リンク: 下線あり、状態別の背景色
+			aWriter.write("a { text-decoration: underline; color: #000000; }");
 			aWriter.newLine();
-			aWriter.write("th { background-color: #f2f2f2; }");
+			aWriter.write("a:link { background-color: #ffddbb; }");
+			aWriter.newLine();
+			aWriter.write("a:visited { background-color: #ccffcc; }");
+			aWriter.newLine();
+			aWriter.write("a:hover, a:active { background-color: #dddddd; }");
+			aWriter.newLine();
+			// 画像: 枠なし、中央揃え
+			aWriter.write("img { border: 0px; vertical-align: middle; }");
+			aWriter.newLine();
+			// テーブル: 枠線、白背景、幅100%
+			aWriter.write("table { border-collapse: collapse; border: 1px solid #000000; background-color: #ffffff; width: 100%; }");
+			aWriter.newLine();
+			// ヘッダセル: 青背景、中央揃え、パディング
+			aWriter.write("th { background-color: #ddeeff; text-align: center; padding: 4px; border: 1px solid #000000; }");
+			aWriter.newLine();
+			// データセル: 基本スタイル
+			aWriter.write("td { padding: 4px; border: 1px solid #000000; text-align: center; }");
+			aWriter.newLine();
+			// 列ごとの色分け（nth-childで条件分岐なしに実現）
+			aWriter.write("td:nth-child(3n+1) { background-color: #ddeeff; }");  // 1,4,7,10列目: 青
+			aWriter.newLine();
+			aWriter.write("td:nth-child(3n+2) { background-color: #ffddee; }");  // 2,5,8列目: ピンク
+			aWriter.newLine();
+			aWriter.write("td:nth-child(3n) { background-color: #ffffcc; }");    // 3,6,9列目: 黄色
+			aWriter.newLine();
+			// 見出し（h1）のスタイル
+			aWriter.write("h1 { font-size: 16pt; margin-bottom: 10px; }");
 			aWriter.newLine();
 			aWriter.write("</style>");
 			aWriter.newLine();
