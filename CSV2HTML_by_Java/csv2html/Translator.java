@@ -5,6 +5,7 @@ import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
@@ -56,9 +57,19 @@ public class Translator extends Object
 	 */
 	public String computeNumberOfDays(String periodString)
 	{
-		// 日付文字列を「〜」で分割
-		String[] dates = periodString.split("〜");
-		if (dates.length < 2) { return ""; }
+		// 日付文字列を「〜」で分割し、ArrayListに変換
+		String[] periodSplitString = periodString.split("〜");
+		List<String> dates = new ArrayList<>(Arrays.asList(periodSplitString));
+
+		// データが一つだけのときは現在日を利用できるように空データを追加
+		if (dates.size() == 1)
+		{
+			dates.add("");
+		}
+		else if (dates.size() < 1)
+		{
+			return "";
+		}
 
 		try
 		{
@@ -66,17 +77,17 @@ public class Translator extends Object
 			java.text.SimpleDateFormat format = new java.text.SimpleDateFormat("yyyy年MM月dd日");
 
 			// 開始日と終了日をパース
-			java.util.Date startDate = format.parse(dates[0].trim());
+			java.util.Date startDate = format.parse(dates.get(0).trim());
 
 			// 終了日が空の場合は現在日を使用
 			java.util.Date endDate;
-			if (dates[1].trim().isEmpty())
+			if (dates.get(1).trim().isEmpty())
 			{
 				endDate = new java.util.Date();
 			}
 			else
 			{
-				endDate = format.parse(dates[1].trim());
+				endDate = format.parse(dates.get(1).trim());
 			}
 
 			// 日数を計算（ミリ秒の差を日数に変換、開始日と終了日の両方を含むため+1）
