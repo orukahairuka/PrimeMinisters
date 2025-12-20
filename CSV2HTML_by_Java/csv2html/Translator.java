@@ -94,7 +94,7 @@ public class Translator extends Object
 			long diffInMillis = endDate.getTime() - startDate.getTime();
 			long days = diffInMillis / (1000 * 60 * 60 * 24) + 1;
 
-			return String.valueOf(days);
+			return String.format("%,d", days);
 		}
 		catch (Exception anException)
 		{
