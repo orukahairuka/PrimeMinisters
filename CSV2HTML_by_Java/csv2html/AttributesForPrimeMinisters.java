@@ -22,8 +22,9 @@ public class AttributesForPrimeMinisters extends Attributes
 		}
 		if (aString.compareTo("output") == 0)
 		{
-			String[] aCollection = new String[] { "no", "order", "name", "kana", "period", "days", "school", "party", "place", "image" };
-			for (String each : aCollection) { this.keys().add(each); this.names().add(new String()); }
+			String[] keyCollection = new String[] { "no", "order", "name", "kana", "period", "days", "school", "party", "place", "image" };
+			String[] nameCollection = new String[] { "人目", "代", "氏名", "ふりがな", "在位期間", "在位日数", "出身校", "政党", "出身地", "画像" };
+			for (int i = 0; i < keyCollection.length; i++) { this.keys().add(keyCollection[i]); this.names().add(nameCollection[i]); }
 		}
 
 		return;
@@ -53,7 +54,7 @@ public class AttributesForPrimeMinisters extends Attributes
 	 */
 	public String baseUrl()
 	{
-		return "http://www.cc.kyoto-su.ac.jp/~atsushi/Programs/VisualWorks/CSV2HTML/PrimeMinisters/";
+		return "https://www.cc.kyoto-su.ac.jp/~atsushi/Programs/VisualWorks/CSV2HTML/PrimeMinisters/";
 	}
 
 	/**

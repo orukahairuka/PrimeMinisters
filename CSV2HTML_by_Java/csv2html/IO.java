@@ -64,7 +64,17 @@ public abstract class IO extends Object
 	 */
 	public static String htmlCanonicalString(String aString)
 	{
-		return null;
+		if (aString == null) { return null; }
+
+		// HTML特殊文字をエスケープ（&を最初に処理する必要がある）
+		String result = aString;
+		result = result.replace("&", "&amp;");
+		result = result.replace("<", "&lt;");
+		result = result.replace(">", "&gt;");
+		result = result.replace("\"", "&quot;");
+		result = result.replace("'", "&#39;");
+
+		return result;
 	}
 
 	/**

@@ -22,8 +22,9 @@ public class AttributesForTokugawaShogunate extends Attributes
 		}
 		if (aString.compareTo("output") == 0)
 		{
-			String[] aCollection = new String[] { "no", "name", "kana", "period", "days", "family", "rank", "image", "former", "cemetery" };
-			for (String each : aCollection) { this.keys().add(each); this.names().add(new String()); }
+			String[] keyCollection = new String[] { "no", "name", "kana", "period", "days", "family", "rank", "image", "former", "cemetery" };
+			String[] nameCollection = new String[] { "代", "氏名", "ふりがな", "在位期間", "在位日数", "出身家", "官位", "画像", "院号", "墓所" };
+			for (int i = 0; i < keyCollection.length; i++) { this.keys().add(keyCollection[i]); this.names().add(nameCollection[i]); }
 		}
 
 		return;
@@ -53,7 +54,7 @@ public class AttributesForTokugawaShogunate extends Attributes
 	 */
 	public String baseUrl()
 	{
-		return "http://www.cc.kyoto-su.ac.jp/~atsushi/Programs/VisualWorks/CSV2HTML/TokugawaShogunate/";
+		return "https://www.cc.kyoto-su.ac.jp/~atsushi/Programs/VisualWorks/CSV2HTML/TokugawaShogunate/";
 	}
 
 	/**
