@@ -1,4 +1,4 @@
-PYTHON	= uv run
+PYTHON	= python
 PYDOC	= pydoc
 PYCS	= $(shell find . -name "*.pyc")
 PYCACHE	= $(shell find . -name "__pycache__")
