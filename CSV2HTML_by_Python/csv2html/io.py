@@ -6,7 +6,7 @@ __author__ = 'AOKI Atsushi'
 __version__ = '1.0.7'
 __date__ = '2021/01/10 (Created: 2016/01/01)'
 
-# import csv
+import csv
 
 class IO:
 	"""入出力：リーダ・ダウンローダ・ライタを抽象する。"""
@@ -25,9 +25,21 @@ class IO:
 	def read_csv(self, filename):
 		"""指定されたファイルをCSVとして読み込み、行リストを応答する。"""
 
-		(lambda x: x)(filename) # NOP
 
-		return (lambda x: x)(self) # answer something
+		encodings = ['utf-8', 'shift_jis', 'cp932']
+		for encoding in encodings:
+			try:
+				with open(filename, 'r', encoding=encoding, newline='') as file:
+					csv_reader = csv.reader(file)
+					rows = list(csv_reader)
+					return rows
+			except UnicodeDecodeError:
+				continue
+			except Exception as e:
+				print(f"Error reading CSV with encoding {encoding}: {e}")
+				return []
+		print("Failed to read CSV with supported encodings.")
+		return []
 
 	@classmethod
 	def html_canonical_string(cls, a_string):
@@ -45,10 +57,15 @@ class IO:
 			'\f' : '',
 		}
 
-		(lambda x: x)(a_string) # NOP
-		(lambda x: x)(table) # NOP
-
-		return (lambda x: x)(cls) # answer something
+		if a_string is None:
+			return ''
+		
+		# HTML特殊文字をエスケープ（&を最初に処理する必要がある）
+		canonical_string = a_string
+		for char, entity in table.items():
+			canonical_string = canonical_string.replace(char, entity)
+			
+		return canonical_string
 
 	def table(self):
 		"""テーブルを応答する。"""
@@ -62,3 +79,6 @@ class IO:
 
 	def write_csv(self, filename, rows):
 		"""指定されたファイルにCSVとして行たち(rows)を書き出す。"""
+		with open(filename, 'w', encoding='utf-8', newline='') as file:
+			csv_writer = csv.writer(file)
+			csv_writer.writerows(rows)

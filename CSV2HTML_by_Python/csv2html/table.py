@@ -40,12 +40,36 @@ class Table:
 	def image_filenames(self):
 		"""画像ファイル群をリストにして応答する。"""
 
-		(lambda x: x)(self) # NOP
+		image_filenames = []
+		# "image" キーのインデックスを取得
+		try:
+			index = self.attributes().keys().index("image")
+			for a_tuple in self.tuples():
+				values = a_tuple.values()
+				if index < len(values):
+					image_filenames.append(values[index])
+		except ValueError:
+			# "image" key not found
+			pass
+			
+		return image_filenames
 
 	def thumbnail_filenames(self):
 		"""縮小画像ファイル群をリストにして応答する。"""
 
-		return (lambda x: x)(self) # answer something
+		thumbnail_filenames = []
+		# "thumbnail" キーのインデックスを取得
+		try:
+			index = self.attributes().keys().index("thumbnail")
+			for a_tuple in self.tuples():
+				values = a_tuple.values()
+				if index < len(values):
+					thumbnail_filenames.append(values[index])
+		except ValueError:
+			# "thumbnail" key not found
+			pass
+			
+		return thumbnail_filenames
 
 
 	def tuples(self):
