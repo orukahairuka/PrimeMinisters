@@ -7,13 +7,8 @@ __version__ = '1.0.7'
 __date__ = '2021/01/10 (Created: 2016/01/01)'
 
 import datetime
-# import locale
 import os
-import os.path
-import re
 import subprocess
-
-# from PIL import Image
 
 from csv2html.downloader import Downloader
 from csv2html.io import IO

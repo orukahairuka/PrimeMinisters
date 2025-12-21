@@ -7,11 +7,9 @@ __version__ = '1.0.7'
 __date__ = '2021/01/10 (Created: 2016/01/01)'
 
 import os
-# import shutil
 import urllib.request
 
 from csv2html.io import IO
-# from csv2html.reader import Reader
 
 class Downloader(IO):
 	"""ダウンローダ：CSVファイル・画像ファイル・サムネイル画像ファイルをダウンロードする。"""
@@ -28,7 +26,7 @@ class Downloader(IO):
 		# CSVファイルのURLと保存先のパスを取得
 		csv_url = self.attributes().csv_url()
 		base_directory = self.attributes().base_directory()
-		filename = os.path.basename(csv_url)
+		os.path.basename(csv_url)
 		save_path = os.path.join(base_directory, 'data.csv')
 		
 		# ダウンロードを実行
@@ -53,7 +51,6 @@ class Downloader(IO):
 			
 			try:
 				urllib.request.urlretrieve(image_url, save_path)
-				# print(f"Downloaded image: {image_url} -> {save_path}")
 			except Exception as e:
 				print(f"Error downloading image {image_url}: {e}")
 
@@ -65,8 +62,4 @@ class Downloader(IO):
 		
 		# 画像とサムネイルをダウンロード
 		input_table = self.table()
-		# 画像ファイルのリストを取得してダウンロード
-		# self.download_images(input_table.image_filenames())
-		# self.download_images(input_table.thumbnail_filenames())
-		# self.download_images(input_table.thumbnail_filenames())
 		pass
