@@ -11,7 +11,6 @@ import os
 import subprocess
 
 from csv2html.downloader import Downloader
-from csv2html.io import IO
 from csv2html.reader import Reader
 from csv2html.table import Table
 from csv2html.tuple import Tuple
