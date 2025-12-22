@@ -96,7 +96,9 @@ class AttributesForPrimeMinisters(Attributes):
 			self._keys = ["no", "order", "name", "kana", "period", "school", "party", "place", "image", "thumbnail"]
 		if kind_string == 'output':
 			self._keys = ["no", "order", "name", "kana", "period", "days", "school", "party", "place", "image"]
-		self._names = [None] * len(self._keys)
+			self._names = ["人目", "代", "氏名", "ふりがな", "在位期間", "在位日数", "出身校", "政党", "出身地", "画像"]
+		else:
+			self._names = [None] * len(self._keys)
 
 	@classmethod
 	def base_directory(cls, *ignore):
@@ -109,7 +111,7 @@ class AttributesForPrimeMinisters(Attributes):
 	def base_url(cls):
 		"""CSVファイルの在り処をURLで応答する。"""
 
-		return 'http://www.cc.kyoto-su.ac.jp/~atsushi/Programs/VisualWorks/CSV2HTML/PrimeMinisters/'
+		return 'https://www.cc.kyoto-su.ac.jp/~atsushi/Programs/VisualWorks/CSV2HTML/PrimeMinisters/'
 
 	@classmethod
 	def caption_string(cls):
@@ -142,7 +144,9 @@ class AttributesForTokugawaShogunate(Attributes):
 			self._keys = ["no", "name", "kana", "period", "family", "rank", "image", "thumbnail", "former", "cemetery"]
 		if kind_string == 'output':
 			self._keys = ["no", "name", "kana", "period", "days", "family", "rank", "image", "former", "cemetery"]
-		self._names = [None] * len(self._keys)
+			self._names = ["代", "氏名", "ふりがな", "在位期間", "在位日数", "出身家", "官位", "画像", "院号", "墓所"]
+		else:
+			self._names = [None] * len(self._keys)
 
 	@classmethod
 	def base_directory(cls, *ignore):
@@ -155,7 +159,7 @@ class AttributesForTokugawaShogunate(Attributes):
 	def base_url(cls):
 		"""CSVファイルの在り処をURLで応答する。"""
 
-		return 'http://www.cc.kyoto-su.ac.jp/~atsushi/Programs/VisualWorks/CSV2HTML/TokugawaShogunate/'
+		return 'https://www.cc.kyoto-su.ac.jp/~atsushi/Programs/VisualWorks/CSV2HTML/TokugawaShogunate/'
 
 	@classmethod
 	def caption_string(cls):
